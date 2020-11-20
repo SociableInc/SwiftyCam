@@ -807,9 +807,8 @@ open class SwiftyCamViewController: UIViewController {
 
 	fileprivate func configurePhotoOutput() {
 		let photoFileOutput = AVCaptureStillImageOutput()
-
 		if self.session.canAddOutput(photoFileOutput) {
-			photoFileOutput.outputSettings  = [AVVideoCodecKey: AVVideoCodecJPEG]
+            photoFileOutput.outputSettings  = [AVVideoCodecKey: AVVideoCodecType.jpeg]
 			self.session.addOutput(photoFileOutput)
 			self.photoFileOutput = photoFileOutput
 		}
@@ -874,13 +873,7 @@ open class SwiftyCamViewController: UIViewController {
 			let alertController = UIAlertController(title: "AVCam", message: message, preferredStyle: .alert)
 			alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert OK button"), style: .cancel, handler: nil))
 			alertController.addAction(UIAlertAction(title: NSLocalizedString("Settings", comment: "Alert button to open Settings"), style: .default, handler: { action in
-				if #available(iOS 10.0, *) {
-					UIApplication.shared.openURL(URL(string: UIApplication.openSettingsURLString)!)
-				} else {
-					if let appSettings = URL(string: UIApplication.openSettingsURLString) {
-						UIApplication.shared.openURL(appSettings)
-					}
-				}
+                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: [:], completionHandler: nil)
 			}))
 			self.present(alertController, animated: true, completion: nil)
 		})
